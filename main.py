@@ -1,3 +1,7 @@
+"""
+Train:
+python main.py --batch_size 20 --dropout 0.45 --dropouth 0.3 --dropouti 0.5 --wdrop 0.45 --chunk_size 10 --seed 141 --epoch 1000 --data ./data/penn --model lstm
+"""
 import argparse
 import time
 import math
@@ -14,7 +18,7 @@ from utils import batchify, get_batch, repackage_hidden
 parser = argparse.ArgumentParser(description='PyTorch PennTreeBank RNN/LSTM Language Model')
 parser.add_argument('--data', type=str, default='data/penn/',
                     help='location of the data corpus')
-parser.add_argument('--model', type=str, default='LSTM', choices=['onlstm', 'lstm'])
+parser.add_argument('--model', type=str, default='lstm', choices=['onlstm', 'lstm'])
 parser.add_argument('--emsize', type=int, default=400,
                     help='size of word embeddings')
 parser.add_argument('--nhid', type=int, default=1150,
