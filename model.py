@@ -5,6 +5,7 @@ from embed_regularize import embedded_dropout
 from locked_dropout import LockedDropout
 from weight_drop import WeightDrop
 from ON_LSTM import ONLSTMStack
+from LSTM import LSTMCellStack
 
 class RNNModel(nn.Module):
     """Container module with an encoder, a recurrent module, and a decoder."""
@@ -16,13 +17,22 @@ class RNNModel(nn.Module):
         self.hdrop = nn.Dropout(dropouth)
         self.drop = nn.Dropout(dropout)
         self.encoder = nn.Embedding(ntoken, ninp)
-        assert rnn_type in ['LSTM'], 'RNN type is not supported'
-        self.rnn = ONLSTMStack(
-            [ninp] + [nhid] * (nlayers - 1) + [ninp],
-            chunk_size=chunk_size,
-            dropconnect=wdrop,
-            dropout=dropouth
-        )
+        if rnn_type == 'onlstm':
+            self.rnn = ONLSTMStack(
+                [ninp] + [nhid] * (nlayers - 1) + [ninp],
+                chunk_size=chunk_size,
+                dropconnect=wdrop,
+                dropout=dropouth
+            )
+        elif rnn_type == 'lstm':
+            self.rnn = LSTMCellStack(
+                [ninp] + [nhid] * (nlayers - 1) + [ninp],
+                dropconnect=wdrop,
+                dropout=dropouth
+            )
+        else:
+            raise ValueError('Impossible')
+
         self.decoder = nn.Linear(ninp, ntoken)
 
         # Optionally tie weights as in:
