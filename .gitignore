@@ -214,4 +214,5 @@ ENV/
 
 #pytorch
 *.pt
->>>>>>> e6ee33014912d2cdc248ceaf7855ad53fd2edad5
+
+*.data
